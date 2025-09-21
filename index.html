@@ -1,174 +1,388 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <title>JUST IN ₹1450</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Unity Agro Foods – Mobile Card</title>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --brand:#2da44e;   /* Unity green for headings/CTAs */
+  --accent:#378b06;  /* panel frame */
+  --blue:#ffc400;    /* action icon background */
+  --whatsapp:#25d366;
+  --card:#ff9500;
+  --ink:#111;
+  --radius:0;        /* sharp corners */
+  --shadow:0 10px 26px rgba(0,0,0,.18);
+}
+
+/* RESET */
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial,sans-serif;background:#030b12;color:var(--ink)}
+
+/* ===== BACKDROP (GIF) ===== */
+.page-bg{
+  position:fixed; inset:0; z-index:-1;
+  background:#000 url('https://i.ibb.co/s96HrgQk/Agro-Foods-Bg.gif') center / cover no-repeat fixed;
+  filter:brightness(.2);
+}
+
+/* LAYOUT – mobile first */
+.wrapper{max-width:550px;margin:0 auto;padding:0 12px}
+.panel{
+  background:var(--accent);
+  border:2px solid #ffffff;
+  border-radius:0;
+  box-shadow:0 12px 30px rgba(122,60,60,.35);
+  margin:12px 0 18px;
+  padding:14px;
+}
+
+/* TOP CARD */
+.upper{background:#fff;border-radius:0;box-shadow:var(--shadow);padding:18px 14px;text-align:center}
+.logo{width:180px;height:auto;object-fit:contain;display:block;margin:0 auto 8px}
+.title{font-size:20px;font-weight:800;color:#0c1116}
+.hr{width:120px;height:2px;background:var(--brand);margin:6px auto}
+.name{color:#0a7c3b;font-weight:700}
+.role{font-size:12px;color:#566}
+
+.actions{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:14px}
+.action a{display:grid;place-items:center;gap:6px;text-decoration:none;color:#111}
+.action i{
+  width:44px;height:44px;border-radius:0;display:grid;place-items:center;color:#fff;
+  background:var(--blue);box-shadow:0 6px 16px rgba(44,57,231,.35);
+}
+
+/* CONTACT LIST */
+.contact-list{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.contact-list li{display:grid;grid-template-columns:36px 1fr;align-items:center;color:#fff}
+.contact-list i{
+  color:#fff;background:#ffffff22;width:36px;height:36px;border-radius:0;
+  display:grid;place-items:center
+}
+.contact-list a{color:#fff;text-decoration:none}
+
+/* WhatsApp share row */
+.share-form{display:grid;grid-template-columns:120px 1fr;gap:8px;margin-top:8px}
+.select,.input{height:44px;border-radius:0;border:1px solid #dcdfe4;padding:0 10px}
+.share-btn{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  background:var(--whatsapp);color:#fff;text-decoration:none;
+  border-radius:0;height:44px;margin-top:8px;font-weight:700
+}
+
+/* CONTENT SECTIONS */
+.section{background:#fff;border-radius:0;box-shadow:var(--shadow);padding:14px}
+.sec-title{text-align:center;color:var(--brand);font-weight:800;margin:2px 0 8px;font-size:18px}
+.sec-underline{width:110px;height:3px;background:var(--brand);opacity:.6;margin:6px auto 10px}
+
+/* Gallery cards */
+.card{background:#fff;border-radius:0;box-shadow:var(--shadow);padding:10px;margin:12px 0}
+.card img{width:100%}
+.enq{display:flex;justify-content:flex-end}
+.enq a{background:var(--brand);color:#fff;text-decoration:none;padding:10px 14px;border-radius:0;font-weight:700}
+
+/* Forms */
+form{display:grid;gap:10px}
+input,textarea,select{width:100%;padding:11px;border:1px solid #dcdfe4;border-radius:0;font-size:14px}
+textarea{min-height:110px;resize:vertical}
+.btn{background:var(--brand);color:#fff;border:none;padding:12px;border-radius:0;font-weight:800}
+
+/* Footer bottom nav */
+.footer{position:fixed;left:0;right:0;bottom:0;z-index:40;background:#fff;border-top:1px solid #e5e7eb}
+.footer ul{display:flex;justify-content:space-around;list-style:none;padding:8px 0;margin:0}
+.footer a{display:grid;place-items:center;text-decoration:none;color:#222;font-size:12px}
+.footer i{font-size:18px;color:#0a7c3b}
+.footer span{margin-top:4px}
+
+/* Modal */
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:60}
+.modal img{max-width:92%;display:block;margin:56px auto}
+.modal .close{position:absolute;right:16px;top:10px;color:#fff;font-size:30px;cursor:pointer}
+
+@media (min-width:700px){
+  .wrapper{padding:0 20px}
+  .panel{padding:18px}
+  .logo{width:220px}
+
+/* Rotate the top card image */
+.logo{
+  width:450px;height:auto;object-fit:contain;display:block;margin:0 auto 8px;
+  animation: spinY 15s linear infinite;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+/* Optional: pause on hover */
+.logo:hover{ animation-play-state: paused }
+
+/* Accessible: respect reduced-motion user setting */
+@keyframes spinY{
+  from{ transform: rotateY(0deg) }
+  to{ transform: rotateY(360deg) }
+}
+@media (prefers-reduced-motion: reduce){
+  .logo{ animation: none }
+}
+}
+</style>
 </head>
 <body>
 
-<div class="container">
-    <img src="https://i.ibb.co/jhvhzKK/Dishalogo.png" alt="Dishalogo" border="0">
-    
-    <h1>DISHA VISHRANTWADI</h1> 
-    <h2>📱: 9370044446</h2>
-    <div class="form-container">
-        <h3>Fill the form for enquiry</h3>
-        <form action="https://script.google.com/macros/s/AKfycbxO3Qm-Pmgv5MR7olbtQzYDX7QlCmGloVTZIdvbo_A1fUTdj-wIfqH1RxyfJ8lTOMKLcg/exec" method="post">
-            <div class="form-field">
-                <label for="name" class="form-label">Name:</label>
-                <input type="text" id="name" name="name" class="form-input" required>
-            </div>
-            <div class="form-field">
-                <label for="contact" class="form-label">Contact No.:</label>
-                <input type="tel" id="contact" name="contact" class="form-input" required>
-            </div>
-            <div class="form-field">
-                <label for="course" class="form-label">Course:</label>
-                <select id="course" multiple name="course" class="form-input">
-                    <option value="C Programming">C Programming</option>
-                    <option value="C++ Programming">C++ Programming</option>
-                    <option value="DATA STRUCTURES IN C">DATA STRUCTURES IN C</option>
-                    <option value="DATA STRUCTURES IN C++">DATA STRUCTURES IN C++</option>
-                    <option value="MS-OFFICE">MS-OFFICE</option>
-                    <option value="ADVANCE EXCEL">ADVANCE EXCEL</option>
-                    <option value="TALLY">TALLY</option>
-                    <option value="GST">GST</option>
-                    <option value="CORELDRAW">CORELDRAW</option>
-                    <option value="PHOTOSHOP">PHOTOSHOP</option>
-                    <option value="ILLUSTRATOR">ILLUSTRATOR</option>
-                    <option value="BANKING">BANKING</option>
-                    <option value="TAXATION">TAXATION</option>
-                    <option value="AUDITING">AUDITING</option>
-                    <option value="2D CAD">2D CAD</option>
-                    <option value="3D CAD">3D CAD</option>
-                    <option value="INDESIGN">INDESIGN</option>
-                </select>
-            </div>
-            <div class="form-field">
-                <label for="email" class="form-label">Email ID:</label>
-                <input type="email" id="email" name="email" class="form-input" required>
-            </div>
-            <button type="submit" class="submit-button">Submit</button>
-        </form>
-    </div>
-    <div class="course-details">
+<div class="page-bg" aria-hidden="true"></div>
 
-        <p>🌐 Comprehensive curriculum coverage of all the topics and practical examples</p>
-        <p>👨‍🏫 Expert-led sessions with Experienced instructors</p>
-        <p>🎓 Suitable for beginners and those preparing for any interviews</p>
-        <p>🚀 Advanced topics and hand full projects</p>
-        <p>🏆 Certificate of completion to showcase your skills</p>
-    </div>
+<div class="wrapper" id="home">
+  <!-- Green rail with Unity hero -->
+  <div class="panel">
+    <div class="upper">
+  <img class="logo" src="https://i.ibb.co/FL5Tsqdn/Aggro-Foods-Logo.jpg" alt="Unity Agro Foods Logo"
+       onerror="this.outerHTML='<div style=&quot;font-weight:800;color:#2da44e;font-size:26px&quot;>UNITY AGRO FOODS</div>'">
+  <div class="title">Unity Agro Foods</div>
+  <div class="hr"></div>
+  <div class="name">Nivarti Godaji</div>
+  <div class="role">Director (Business Development)</div>
 
-    
+  <div class="actions">
+    <div class="action"><a href="tel:+917083831129" target="_blank"><i class="fas fa-phone fa-flip-horizontal"></i><small>Call Me</small></a></div>
+    <div class="action"><a href="https://wa.me/917083831129" target="_blank"><i class="fab fa-whatsapp"></i><small>Whatsapp</small></a></div>
+    <div class="action"><a href="https://maps.google.com/?q=Flat+No.+5025,+No.+85/2A/1,+Raghunandan+Dhyanshwari+Park,+Dighi,+Haveli,+Pune+411015" target="_blank"><i class="fas fa-map-marker-alt fa-flip-horizontal"></i><small>Direction</small></a></div>
+    <div class="action"><a href="mailto:unityagrofoods@gmail.com" target="_blank"><i class="fas fa-envelope fa-flip-horizontal"></i><small>Mail</small></a></div>
+  </div>
 </div>
+
+    <!-- Contact rows + WhatsApp share -->
+    <ul class="contact-list" style="margin-top:12px">
+      <li><i class="fas fa-map-marker-alt"></i>
+        <a target="_blank" href="https://maps.google.com/?q=Flat+No.+5025,+No.+85/2A/1,+Raghunandan+Dhyanshwari+Park,+Dighi,+Haveli,+Pune+411015">
+          Office: Flat No. 5025, No. 85/2A/1, Raghunandan Dhyanshwari Park, Dighi, Haveli, Pune 411015, India
+        </a>
+      </li>
+      <li><i class="fas fa-industry"></i>
+        <a target="_blank" href="https://maps.google.com/?q=Gat+No.+47/5,+2/Ap.+Sasthre,+Tal.+Haveli,+Dist.+Pune,+Maharashtra+412210">
+          Factory: Gat No. 47/5, 2/Ap. Sasthre, Tal. Haveli, Dist. Pune 412210, India
+        </a>
+      </li>
+      <li><i class="fas fa-phone fa-flip-horizontal"></i>
+        <a href="tel:+917083831129">+91-70838-31129</a> .    <a href="tel:+971508213882">+971-508213882</a> .    <a href="tel:+966538305614">+966-538305614</a>
+      </li>
+      <li><i class="fas fa-envelope"></i>
+        <a href="mailto:unityagrofoods@gmail.com">unityagrofoods@gmail.com</a> .   
+        <a href="mailto:npgodaji@unityagrofoods.com">npgodaji@unityagrofoods.com</a>
+      </li>
+      <li><i class="fas fa-globe"></i>
+        <a href="https://www.unityagrofoods.com" target="_blank">www.unityagrofoods.com</a>
+      </li>
+    </ul>
+
+    <div class="share-form">
+      <select id="country_code" class="select" aria-label="Country code">
+        <option value="91">India (+91)</option>
+        <option value="971">UAE (+971)</option>
+        <option value="966">Saudi (+966)</option>
+        <option value="1">USA (+1)</option>
+        <option value="44">UK (+44)</option>
+      </select>
+      <input id="mbl" class="input" placeholder="Enter number" maxlength="12"
+             oninput="this.value=this.value.replace(/[^0-9]/g,'');">
+    </div>
+    <a id="swhatsapp" class="share-btn" target="_blank"><i class="fab fa-whatsapp"></i> Share on Whatsapp</a>
+  </div>
+
+  <!-- Company Profile -->
+  <div class="panel">
+    <div class="section">
+      <div class="sec-title">COMPANY PROFILE</div>
+      <div class="sec-underline"></div>
+      <p>Inaugurated in 2016 and headquartered in Pune, Maharashtra, "Agrovan" and "Unity Agro Foods" stand as two dynamic Companies being a part of Avenue Group of Companies. We take immense pride in our role as the primary manufacturer of an extensive range of Frozen, Canned, Dehydrated and spices, Fresh and Ready to eat. Our products are in high demand, celebrated for their exceptional quality, diverse designs, and budget-friendly pricing. What truly sets us apart is our unwavering commitment to delivering these outstanding products to our clients in a punctual manner. It's this dedication that has enabled us to cultivate a substantial and loyal client base within the market.</p>
+      <p>Our comprehensive approach covers the entire spectrum of our operations, encompassing farming, processing, storage, and the efficient distribution of our final products. This holistic strategy enables us to not only guarantee unwavering consistency but also to ensure an uninterrupted supply year-round. We have cultivated an extensive export network, effectively serving a broad clientele across the globe.</p>
+    </div>
+  </div>
+
+  <!-- NEW: Exports -->
+  <div class="panel" id="exports">
+    <div class="section">
+      <div class="sec-title">EXPORTS – FROM INDIA TO THE WORLD</div>
+      <div class="sec-underline"></div>
+      <p><strong>Unity Agro Foods</strong> exports premium quality fruits and vegetables to leading retailers and manufacturers. Beyond bulk exports, we partner with global brands for <strong>Private Label solutions</strong>. Our own brands – <em>Just Eat It</em>, <em>Klassik</em> and <em>Exotika</em> – are expanding across the Middle East and new markets.</p>
+      <p>We build long-term partnerships by delivering consistent quality and reliable service.</p>
+      <ul style="margin:10px 0 0 18px; line-height:1.7">
+        <li>Russia</li>
+        <li>Oman</li>
+        <li>North Africa</li>
+        <li>UAE</li>
+        <li>Saudi Arabia</li>
+        <li>Europe</li>
+      </ul>
+      <div class="enq" style="margin-top:10px"><a href="https://wa.me/917083831129?text=Hi%20Unity%20Agro,%20please%20share%20your%20export%20catalogue." target="_blank">Request Export Catalogue</a></div>
+    </div>
+  </div>
+
+  <!-- NEW: Technology & Production -->
+  <div class="panel" id="technology">
+    <div class="section">
+      <div class="sec-title">TECHNOLOGY & PRODUCTION</div>
+      <div class="sec-underline"></div>
+      <ul style="margin:0 0 0 18px; line-height:1.7">
+        <li>Advanced processing and freezing lines ensure product safety and freshness.</li>
+        <li>Expert quality team monitors the journey from farm to finished product.</li>
+        <li>Systems built to meet international standards for frozen and canned products.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- NEW: Utility Capacity -->
+  <div class="panel" id="capacity">
+    <div class="section">
+      <div class="sec-title">UTILITY & STORAGE CAPACITY</div>
+      <div class="sec-underline"></div>
+      <ul style="margin:0 0 0 18px; line-height:1.8">
+        <li><strong>Daily Frozen Shipping:</strong> 40 Tons (Finished Goods)</li>
+        <li><strong>Daily Canned Food Production:</strong> 5 Tons</li>
+        <li><strong>Finished Goods Storage:</strong> 1000 Tons</li>
+        <li><strong>Cold Stores:</strong> 4 Units</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Gallery (replace images as needed) -->
+  <div class="panel" id="gallery">
+    <div class="section">
+      <div class="sec-title">GALLERY / PRODUCTS</div>
+      <div class="sec-underline"></div>
+
+      <div class="card">
+        <img src="https://i.ibb.co/rG1JCqg1/sweetcorn.png" alt="Spices">
+        <div class="enq"><a href="https://wa.me/917083831129?text=Hi%20Unity%20Agro,%20I%27m%20interested%20in%20your%20Spices" target="_blank">Enquiry</a></div>
+      </div>
+      
+      <div class="card">
+        <img src="https://i.ibb.co/5gWKdBjt/vacuume-beetroot.png" alt="Spices">
+        <div class="enq"><a href="https://wa.me/917083831129?text=Hi%20Unity%20Agro,%20I%27m%20interested%20in%20your%20Spices" target="_blank">Enquiry</a></div>
+      </div>
+      <div class="card">
+        <img src="https://i.ibb.co/Rp10wZg2/portfolio.png" alt="Spices">
+        <div class="enq"><a href="https://wa.me/917083831129?text=Hi%20Unity%20Agro,%20I%27m%20interested%20in%20your%20Spices" target="_blank">Enquiry</a></div>
+      </div>
+      <div class="card">
+        <img src="https://i.ibb.co/Rk1Y83LT/strawberry.png" alt="Grains">
+        <div class="enq"><a href="https://wa.me/917083831129?text=Hi%20Unity%20Agro,%20I%27m%20interested%20in%20your%20Grains" target="_blank">Enquiry</a></div>
+      </div>
+      <div class="card">
+        <!-- fixed extension from .pngp -> .png -->
+        <img src="https://i.ibb.co/JWn3PfGp/Jalapena.png" alt="Fruits">
+        <div class="enq"><a href="https://wa.me/917083831129?text=Hi%20Unity%20Agro,%20I%27m%20interested%20in%20your%20Fruit%20collection" target="_blank">Enquiry</a></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Review -->
+  <div class="panel" id="review">
+    <div class="section">
+      <div class="sec-title">REVIEW</div>
+      <div class="sec-underline"></div>
+      <form onsubmit="event.preventDefault(); alert('Thanks for your feedback!');">
+        <select required>
+          <option value="">Select a rating</option>
+          <option>Excellent</option><option>Very Good</option><option>Average</option><option>Poor</option><option>Terrible</option>
+        </select>
+        <input placeholder="Enter Full Name" required>
+        <input placeholder="Enter Address">
+        <input placeholder="Enter Mobile No" maxlength="10" oninput="this.value=this.value.replace(/[^0-9]/g,'');">
+        <textarea placeholder="Enter your Comments"></textarea>
+
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+          <input style="background:#e5e7eb" value="4246" readonly id="captcha_image">
+          <input id="rcaptcha" placeholder="Enter the code from the box here:" onkeyup="checkpw();" required>
+          <span id="cerr" style="min-width:90px"></span>
+        </div>
+        <button class="btn" type="submit">Give Feedback</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Inquiry -->
+  <div class="panel" id="inquiry">
+    <div class="section">
+      <div class="sec-title">INQUIRY</div>
+      <div class="sec-underline"></div>
+      <form onsubmit="event.preventDefault();">
+        <input id="enqname" placeholder="Enter Full Name" required>
+        <input id="enqmobile_send" placeholder="Enter Phone Number" maxlength="10" oninput="this.value=this.value.replace(/[^0-9]/g,'');" required>
+        <input id="enqemail" placeholder="Enter Email" type="email" required>
+        <textarea id="enqdescription" placeholder="Enter Message" required></textarea>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+          <input style="background:#e5e7eb" value="0624" readonly id="icaptcha1">
+          <input id="icaptcha" placeholder="Enter the code from the box here:" onkeyup="checkenqcpt();" required>
+          <span id="cerrenq" style="min-width:90px"></span>
+        </div>
+        <button class="btn" id="inquirysave" type="button" disabled>Send</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Sticky footer nav -->
+<nav class="footer" aria-label="Bottom navigation">
+  <ul>
+    <li><a href="#home"><i class="fas fa-home"></i><span>Home</span></a></li>
+    <li><a href="#home"><i class="fas fa-briefcase"></i><span>About us</span></a></li>
+    <li><a href="#gallery"><i class="fas fa-file-image"></i><span>Products</span></a></li>
+    <li><a href="#review"><i class="fas fa-star"></i><span>Feedback</span></a></li>
+    <li><a href="#inquiry"><i class="fas fa-comment-alt"></i><span>Enquiry</span></a></li>
+  </ul>
+</nav>
+
+<!-- Image Modal -->
+<div id="imageModal" class="modal">
+  <span class="close" id="imageModalClose">&times;</span>
+  <img id="img01" alt="">
+</div>
+
+<script>
+/* WhatsApp share text for Unity Agro */
+const shareText = 'Unity Agro Foods – True definition of foods • www.unityagrofoods.com';
+function updateWA(){
+  const cc = document.getElementById('country_code').value || '';
+  const num = document.getElementById('mbl').value || '';
+  const url = 'https://api.whatsapp.com/send?phone='+cc+num+'&text='+encodeURIComponent(shareText);
+  document.getElementById('swhatsapp').href = url;
+}
+['country_code','mbl'].forEach(id=>{
+  const el=document.getElementById(id);
+  el.addEventListener('change',updateWA); el.addEventListener('input',updateWA);
+});
+updateWA();
+
+/* Captcha mini checks */
+function checkpw(){
+  const ok = document.getElementById('rcaptcha').value === document.getElementById('captcha_image').value;
+  const t = document.getElementById('cerr'); t.textContent = ok ? 'Matching' : 'Not Matching'; t.style.color = ok ? 'green' : 'red';
+}
+function checkenqcpt(){
+  const ok = document.getElementById('icaptcha').value === document.getElementById('icaptcha1').value;
+  const t = document.getElementById('cerrenq'); t.textContent = ok ? 'Matching' : 'Not Matching'; t.style.color = ok ? 'green' : 'red';
+  document.getElementById('inquirysave').disabled = !ok;
+}
+
+/* Inquiry → WhatsApp to Unity number */
+document.getElementById('inquirysave').addEventListener('click', function(){
+  const name=document.getElementById('enqname').value.trim();
+  const phone=document.getElementById('enqmobile_send').value.trim();
+  const email=document.getElementById('enqemail').value.trim();
+  const msg=document.getElementById('enqdescription').value.trim();
+  const txt='Name: '+name+' %0D%0A Mobile Number: '+phone+'%0D%0AEmail: '+email+'%0D%0AMessage: '+msg;
+  window.open('https://api.whatsapp.com/send?phone=917083831129&text='+txt,'_blank');
+});
+
+/* Image modal */ 
+function openImageModal(el){
+  const m=document.getElementById('imageModal'); document.getElementById('img01').src=el.src; m.style.display='block';
+}
+window.openImageModal=openImageModal;
+document.getElementById('imageModalClose').onclick=()=>document.getElementById('imageModal').style.display='none';
+</script>
 </body>
-<style>
-    body {
-        background-size: auto; /* Adjust according to your needs */
-        align-self: center;
-        background-repeat: no-repeat; /* Adjust according to your needs */
-        font-family: 'times new roman', sans-serif;
-        width: 800px;
-        margin: 0 auto;
-        padding: 0;
-        color: #ffffff; /* Set text color to ensure it's readable against the background */
-        
-    }
-    .container img {
-    /* Style the image within the container */
-        width: 800px; 
-        object-fit: auto; /* Cover the container with the image */
-        margin: auto;
-     }
-    .container {
-        width: 800px ;
-        margin: 50px auto;
-        background-color: rgba(238, 235, 236, 0.8); /* Add a semi-transparent white background over the image */
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(210, 192, 192, 0.1);
-        text-align: center;
-    }
-
-    h1 {
-        color: #601515;
-        text-align: center;
-        text-shadow: 10em ;
-        font: bold;
-    }
-    h2 {
-        color: #914747;
-        text-align: center;
-    }
-    .course-details {
-        margin-top: 20px;
-        padding: 15px;
-        background-color: rgb(255, 255, 255); /* Add a semi-transparent white background for better readability */
-        border-radius: 5px;
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-    }
-    .course-details p {
-        color: #c81b1b;
-        margin: 25px 0;
-        font:   2em T;
-        text-align: center;
-        width: auto;
-    }
-    
-
-    .form-container {
-        width: auto;
-        margin: 50px auto;
-        background-color: rgba(62, 161, 204, 0.8); /* Add a semi-transparent white background over the image */
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        text-align: center;
-
-    }
-    h3 {
-        color: #ffffff;
-        text-align: center;
-        font-family: Georgia, 'Times New Roman', Times, serif;
-        font-size: x-large;
-    }
-    .form-field {
-        margin-bottom: 10px;
-        margin: 50px auto;
-    }
-
-    .form-label {
-        display: block;
-        text-align: center;
-        font: 1.2em sans-serif;
-        margin-bottom: 5px;
-    }
-
-    .form-input {
-        width: 90% ;
-        padding: 10px;
-        text-align: left;
-        border: 1px solid #082a03;
-        border-radius: 3px;
-        font-size: 16px;
-    }
-
-    .submit-button {
-        width: 100%;
-        padding: 10px;
-        margin-top: 20px;
-        background-color: #ffffff;
-        color: #210c0c;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-
-    .submit-button:hover {
-        background-color: #191cde;
-    }
-</style>
-
-
-</head>
 </html>
